@@ -1,0 +1,381 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "authorship_tag": "ABX9TyO8vb6yB0qFp1T1zxZRq4Rh",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/annevirginia1709-afk/Code-Alpha_Phishing-Awareness-Training/blob/main/Phishing%20Awareness-Training\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": null,
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 383
+        },
+        "id": "2MvhCZQYwlW2",
+        "outputId": "462b9438-efc4-4b8f-ea5c-69e2a64460c8"
+      },
+      "outputs": [
+        {
+          "output_type": "error",
+          "ename": "ModuleNotFoundError",
+          "evalue": "No module named 'scapy'",
+          "traceback": [
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0m",
+            "\u001b[0;31mModuleNotFoundError\u001b[0m                       Traceback (most recent call last)",
+            "\u001b[0;32m/tmp/ipykernel_646/1080384635.py\u001b[0m in \u001b[0;36m<cell line: 0>\u001b[0;34m()\u001b[0m\n\u001b[0;32m----> 1\u001b[0;31m \u001b[0;32mfrom\u001b[0m \u001b[0mscapy\u001b[0m\u001b[0;34m.\u001b[0m\u001b[0mall\u001b[0m \u001b[0;32mimport\u001b[0m \u001b[0msniff\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mIP\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mTCP\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mUDP\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mICMP\u001b[0m\u001b[0;34m,\u001b[0m \u001b[0mRaw\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[0m\u001b[1;32m      2\u001b[0m \u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      3\u001b[0m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"=\"\u001b[0m \u001b[0;34m*\u001b[0m \u001b[0;36m60\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      4\u001b[0m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"       NETWORK PACKET CAPTURE PROGRAM\"\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n\u001b[1;32m      5\u001b[0m \u001b[0mprint\u001b[0m\u001b[0;34m(\u001b[0m\u001b[0;34m\"=\"\u001b[0m \u001b[0;34m*\u001b[0m \u001b[0;36m60\u001b[0m\u001b[0;34m)\u001b[0m\u001b[0;34m\u001b[0m\u001b[0;34m\u001b[0m\u001b[0m\n",
+            "\u001b[0;31mModuleNotFoundError\u001b[0m: No module named 'scapy'",
+            "",
+            "\u001b[0;31m---------------------------------------------------------------------------\u001b[0;32m\nNOTE: If your import is failing due to a missing package, you can\nmanually install dependencies using either !pip or !apt.\n\nTo view examples of installing some common dependencies, click the\n\"Open Examples\" button below.\n\u001b[0;31m---------------------------------------------------------------------------\u001b[0m\n"
+          ],
+          "errorDetails": {
+            "actions": [
+              {
+                "action": "open_url",
+                "actionText": "Open Examples",
+                "url": "/notebooks/snippets/importing_libraries.ipynb"
+              }
+            ]
+          }
+        }
+      ],
+      "source": [
+        "from scapy.all import sniff, IP, TCP, UDP, ICMP, Raw\n",
+        "\n",
+        "print(\"=\" * 60)\n",
+        "print(\"       NETWORK PACKET CAPTURE PROGRAM\")\n",
+        "print(\"=\" * 60)\n",
+        "print(\"Capturing 10 packets...\")\n",
+        "print(\"Please browse some websites while capturing.\\n\")\n",
+        "\n",
+        "\n",
+        "def analyze_packet(packet):\n",
+        "    if IP in packet:\n",
+        "\n",
+        "        source_ip = packet[IP].src\n",
+        "        destination_ip = packet[IP].dst\n",
+        "\n",
+        "        # Identify protocol\n",
+        "        if TCP in packet:\n",
+        "            protocol = \"TCP\"\n",
+        "        elif UDP in packet:\n",
+        "            protocol = \"UDP\"\n",
+        "        elif ICMP in packet:\n",
+        "            protocol = \"ICMP\"\n",
+        "        else:\n",
+        "            protocol = \"Other\"\n",
+        "\n",
+        "        print(\"-\" * 60)\n",
+        "        print(\"Source IP      :\", source_ip)\n",
+        "        print(\"Destination IP :\", destination_ip)\n",
+        "        print(\"Protocol       :\", protocol)\n",
+        "\n",
+        "        # Display payload\n",
+        "        if Raw in packet:\n",
+        "            payload = bytes(packet[Raw].load)\n",
+        "            print(\"Payload        :\", payload[:100])\n",
+        "        else:\n",
+        "            print(\"Payload        : No payload\")\n",
+        "\n",
+        "\n",
+        "# Capture 10 packets\n",
+        "sniff(prn=analyze_packet, count=10)\n",
+        "\n",
+        "print(\"\\n\" + \"=\" * 60)\n",
+        "print(\"Packet capture completed!\")\n",
+        "print(\"=\" * 60)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!apt-get update -qq\n",
+        "!apt-get install -y libpcap-dev\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "u18fwI1RxFfZ",
+        "outputId": "c408ea71-bb65-4895-a243-20651d7f8c62"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "W: Skipping acquire of configured file 'main/source/Sources' as repository 'https://r2u.stat.illinois.edu/ubuntu noble InRelease' does not seem to provide it (sources.list entry misspelt?)\n",
+            "Reading package lists... Done\n",
+            "Building dependency tree... Done\n",
+            "Reading state information... Done\n",
+            "The following additional packages will be installed:\n",
+            "  libdbus-1-dev libpcap0.8-dev libpcap0.8t64\n",
+            "The following NEW packages will be installed:\n",
+            "  libdbus-1-dev libpcap-dev libpcap0.8-dev libpcap0.8t64\n",
+            "0 upgraded, 4 newly installed, 0 to remove and 30 not upgraded.\n",
+            "Need to get 613 kB of archives.\n",
+            "After this operation, 2,255 kB of additional disk space will be used.\n",
+            "Get:1 http://archive.ubuntu.com/ubuntu noble/main amd64 libpcap0.8t64 amd64 1.10.4-4.1ubuntu3 [151 kB]\n",
+            "Get:2 http://archive.ubuntu.com/ubuntu noble-updates/main amd64 libdbus-1-dev amd64 1.14.10-4ubuntu4.1 [190 kB]\n",
+            "Get:3 http://archive.ubuntu.com/ubuntu noble/main amd64 libpcap0.8-dev amd64 1.10.4-4.1ubuntu3 [269 kB]\n",
+            "Get:4 http://archive.ubuntu.com/ubuntu noble/main amd64 libpcap-dev amd64 1.10.4-4.1ubuntu3 [3,324 B]\n",
+            "Fetched 613 kB in 1s (420 kB/s)\n",
+            "Selecting previously unselected package libpcap0.8t64:amd64.\n",
+            "(Reading database ... 122797 files and directories currently installed.)\n",
+            "Preparing to unpack .../libpcap0.8t64_1.10.4-4.1ubuntu3_amd64.deb ...\n",
+            "Unpacking libpcap0.8t64:amd64 (1.10.4-4.1ubuntu3) ...\n",
+            "Selecting previously unselected package libdbus-1-dev:amd64.\n",
+            "Preparing to unpack .../libdbus-1-dev_1.14.10-4ubuntu4.1_amd64.deb ...\n",
+            "Unpacking libdbus-1-dev:amd64 (1.14.10-4ubuntu4.1) ...\n",
+            "Selecting previously unselected package libpcap0.8-dev:amd64.\n",
+            "Preparing to unpack .../libpcap0.8-dev_1.10.4-4.1ubuntu3_amd64.deb ...\n",
+            "Unpacking libpcap0.8-dev:amd64 (1.10.4-4.1ubuntu3) ...\n",
+            "Selecting previously unselected package libpcap-dev:amd64.\n",
+            "Preparing to unpack .../libpcap-dev_1.10.4-4.1ubuntu3_amd64.deb ...\n",
+            "Unpacking libpcap-dev:amd64 (1.10.4-4.1ubuntu3) ...\n",
+            "Setting up libdbus-1-dev:amd64 (1.14.10-4ubuntu4.1) ...\n",
+            "Setting up libpcap0.8t64:amd64 (1.10.4-4.1ubuntu3) ...\n",
+            "Processing triggers for libc-bin (2.39-0ubuntu8.8) ...\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libur_loader.so.0 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libtbbmalloc_proxy.so.2 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libhwloc.so.15 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libtbbbind_2_5.so.3 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libtcm_debug.so.1 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libtbbmalloc.so.2 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libtbbbind.so.3 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libur_adapter_level_zero_v2.so.0 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libumf.so.1 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libtbb.so.12 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libur_adapter_opencl.so.0 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libur_adapter_level_zero.so.0 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libtbbbind_2_0.so.3 is not a symbolic link\n",
+            "\n",
+            "/sbin/ldconfig.real: /usr/local/lib/libtcm.so.1 is not a symbolic link\n",
+            "\n",
+            "Processing triggers for man-db (2.12.0-4build2) ...\n",
+            "Processing triggers for sgml-base (1.31) ...\n",
+            "Setting up libpcap0.8-dev:amd64 (1.10.4-4.1ubuntu3) ...\n",
+            "Setting up libpcap-dev:amd64 (1.10.4-4.1ubuntu3) ...\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!pip install scapy\n",
+        "from scapy.all import sniff, IP, TCP, UDP, ICMP, Raw\n",
+        "\n",
+        "print(\"Scapy is working!\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "IG148EiHxnp-",
+        "outputId": "e2dc5ae9-29fc-4a02-8d66-f894fd45a76b"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Collecting scapy\n",
+            "  Downloading scapy-2.7.0-py3-none-any.whl.metadata (5.8 kB)\n",
+            "Downloading scapy-2.7.0-py3-none-any.whl (2.6 MB)\n",
+            "\u001b[?25l   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.0/2.6 MB\u001b[0m \u001b[31m?\u001b[0m eta \u001b[36m-:--:--\u001b[0m\r\u001b[2K   \u001b[91m━━━━━━━━━━━━\u001b[0m\u001b[91m╸\u001b[0m\u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m0.8/2.6 MB\u001b[0m \u001b[31m25.2 MB/s\u001b[0m eta \u001b[36m0:00:01\u001b[0m\r\u001b[2K   \u001b[91m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m\u001b[91m╸\u001b[0m \u001b[32m2.6/2.6 MB\u001b[0m \u001b[31m53.5 MB/s\u001b[0m eta \u001b[36m0:00:01\u001b[0m\r\u001b[2K   \u001b[90m━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\u001b[0m \u001b[32m2.6/2.6 MB\u001b[0m \u001b[31m34.3 MB/s\u001b[0m eta \u001b[36m0:00:00\u001b[0m\n",
+            "\u001b[?25hInstalling collected packages: scapy\n",
+            "Successfully installed scapy-2.7.0\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stderr",
+          "text": [
+            "/usr/local/lib/python3.13/dist-packages/scapy/layers/tls/crypto/groups.py:25: CryptographyDeprecationWarning: Diffie-Hellman over finite fields (FFDH) is deprecated and support will be removed in a future release. Use a more modern key exchange algorithm.\n",
+            "  from cryptography.hazmat.primitives.asymmetric.dh import DHParameterNumbers\n"
+          ]
+        },
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Scapy is working!\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "!apt-get update -qq\n",
+        "!apt-get install -y libpcap-dev\n",
+        "!pip install -q scapy\n",
+        "\n",
+        "from scapy.all import sniff, IP, TCP, UDP, ICMP, Raw\n",
+        "\n",
+        "print(\"=\" * 60)\n",
+        "print(\"       NETWORK PACKET CAPTURE PROGRAM\")\n",
+        "print(\"=\" * 60)\n",
+        "print(\"Starting packet capture...\\n\")\n",
+        "\n",
+        "count = 0\n",
+        "\n",
+        "def analyze_packet(packet):\n",
+        "    global count\n",
+        "\n",
+        "    if IP in packet:\n",
+        "        count += 1\n",
+        "\n",
+        "        if TCP in packet:\n",
+        "            protocol = \"TCP\"\n",
+        "        elif UDP in packet:\n",
+        "            protocol = \"UDP\"\n",
+        "        elif ICMP in packet:\n",
+        "            protocol = \"ICMP\"\n",
+        "        else:\n",
+        "            protocol = \"Other\"\n",
+        "\n",
+        "        print(\"-\" * 60)\n",
+        "        print(\"Packet Number  :\", count)\n",
+        "        print(\"Source IP      :\", packet[IP].src)\n",
+        "        print(\"Destination IP :\", packet[IP].dst)\n",
+        "        print(\"Protocol       :\", protocol)\n",
+        "\n",
+        "        if Raw in packet:\n",
+        "            print(\"Payload        :\", bytes(packet[Raw].load)[:100])\n",
+        "        else:\n",
+        "            print(\"Payload        : No payload\")\n",
+        "\n",
+        "sniff(filter=\"ip\", prn=analyze_packet, count=10, store=False)\n",
+        "\n",
+        "print(\"\\nPacket capture completed!\")"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "0rrFJTVBz3Dq",
+        "outputId": "4f980eb4-ab51-462b-ccd8-045fe4e7dc02"
+      },
+      "execution_count": null,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "W: Skipping acquire of configured file 'main/source/Sources' as repository 'https://r2u.stat.illinois.edu/ubuntu noble InRelease' does not seem to provide it (sources.list entry misspelt?)\n",
+            "Reading package lists... Done\n",
+            "Building dependency tree... Done\n",
+            "Reading state information... Done\n",
+            "libpcap-dev is already the newest version (1.10.4-4.1ubuntu3).\n",
+            "0 upgraded, 0 newly installed, 0 to remove and 30 not upgraded.\n",
+            "============================================================\n",
+            "       NETWORK PACKET CAPTURE PROGRAM\n",
+            "============================================================\n",
+            "Starting packet capture...\n",
+            "\n",
+            "------------------------------------------------------------\n",
+            "Packet Number  : 1\n",
+            "Source IP      : 172.28.0.12\n",
+            "Destination IP : 172.28.0.1\n",
+            "Protocol       : TCP\n",
+            "Payload        : b'\\x81~\\x03.{\"header\": {\"msg_id\": \"5111202a-f165819027aeb534293efc33_2187_98\", \"msg_type\": \"stream\", \"userna'\n",
+            "------------------------------------------------------------\n",
+            "Packet Number  : 2\n",
+            "Source IP      : 172.28.0.1\n",
+            "Destination IP : 172.28.0.12\n",
+            "Protocol       : TCP\n",
+            "Payload        : No payload\n",
+            "------------------------------------------------------------\n",
+            "Packet Number  : 3\n",
+            "Source IP      : 172.28.0.12\n",
+            "Destination IP : 172.28.0.1\n",
+            "Protocol       : TCP\n",
+            "Payload        : b'\\x81~\\x04]{\"header\": {\"msg_id\": \"5111202a-f165819027aeb534293efc33_2187_99\", \"msg_type\": \"stream\", \"userna'\n",
+            "------------------------------------------------------------\n",
+            "Packet Number  : 4\n",
+            "Source IP      : 172.28.0.1\n",
+            "Destination IP : 172.28.0.12\n",
+            "Protocol       : TCP\n",
+            "Payload        : No payload\n",
+            "------------------------------------------------------------\n",
+            "Packet Number  : 5\n",
+            "Source IP      : 172.28.0.12\n",
+            "Destination IP : 172.28.0.1\n",
+            "Protocol       : TCP\n",
+            "Payload        : b'\\x81~\\x04_{\"header\": {\"msg_id\": \"5111202a-f165819027aeb534293efc33_2187_100\", \"msg_type\": \"stream\", \"usern'\n",
+            "------------------------------------------------------------\n",
+            "Packet Number  : 6\n",
+            "Source IP      : 172.28.0.1\n",
+            "Destination IP : 172.28.0.12\n",
+            "Protocol       : TCP\n",
+            "Payload        : No payload\n",
+            "------------------------------------------------------------\n",
+            "Packet Number  : 7\n",
+            "Source IP      : 172.28.0.12\n",
+            "Destination IP : 172.28.0.1\n",
+            "Protocol       : TCP\n",
+            "Payload        : b'\\x81~\\x04_{\"header\": {\"msg_id\": \"5111202a-f165819027aeb534293efc33_2187_101\", \"msg_type\": \"stream\", \"usern'\n",
+            "------------------------------------------------------------\n",
+            "Packet Number  : 8\n",
+            "Source IP      : 172.28.0.1\n",
+            "Destination IP : 172.28.0.12\n",
+            "Protocol       : TCP\n",
+            "Payload        : No payload\n",
+            "------------------------------------------------------------\n",
+            "Packet Number  : 9\n",
+            "Source IP      : 172.28.0.12\n",
+            "Destination IP : 172.28.0.1\n",
+            "Protocol       : TCP\n",
+            "Payload        : b'\\x81~\\x04_{\"header\": {\"msg_id\": \"5111202a-f165819027aeb534293efc33_2187_102\", \"msg_type\": \"stream\", \"usern'\n",
+            "------------------------------------------------------------\n",
+            "Packet Number  : 10\n",
+            "Source IP      : 172.28.0.1\n",
+            "Destination IP : 172.28.0.12\n",
+            "Protocol       : TCP\n",
+            "Payload        : No payload\n",
+            "\n",
+            "Packet capture completed!\n"
+          ]
+        }
+      ]
+    }
+  ]
+}
